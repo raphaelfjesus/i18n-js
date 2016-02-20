@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/raphaelfjesus/i18n-js/badges/gpa.svg)](https://codeclimate.com/github/raphaelfjesus/i18n-js)
 [![Test Coverage](https://codeclimate.com/github/raphaelfjesus/i18n-js/badges/coverage.svg)](https://codeclimate.com/github/raphaelfjesus/i18n-js/coverage)
 
-Está precisando de uma biblioteca javascript simples e objetiva para manipular traduções, independente de framework web ([AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Backbone.js](http://backbonejs.org/), [Ember.js](http://emberjs.com/), entre outros) ou [Node.JS](https://nodejs.org)? Se sua resposta é sim, então continue lendo este documento e veja os recursos disponíveis por esta biblioteca.
+You need a simple and objective javascript library for manipulating translations, regardless of web framework ([AngularJS](https://angularjs.org/), [React](https://facebook.github.io/react/), [Backbone.js](http://backbonejs.org/), [Ember.js](http://emberjs.com/), among others) or [Node.JS](https://nodejs.org)? If your answer is yes, then read this document and see the resources available for this library.
 
 ## Features
 
@@ -75,7 +75,7 @@ var i18n = i18n({
   // Delimiter used for translations namespaced. Default value: '.'
   objectDelimiter: '.', 
   
-  // Loader of the translation files, returning an object with the syntax { [locale]: { translationId: 'translation'} }
+  // Loader of the translation files, returning an object with the syntax { locale: { translationId: 'translation'} }
   load: function(locale, preferred, fallbacks, urlTemplate) {
     // Write your code according to the framework used by you
   }
@@ -94,12 +94,22 @@ Now, create the translation files with the required texts, for example:
   },
   "text": {
     "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
-	  "like": "{GENDER, select, male{He} female{She} other{They}} like this."
+    "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
+    "welcome": "Welcome, {{}}!" 
   },
   "error": {
     "required": "This field is required",
     "length": "Length must be between {} and {}",
     "range": "Must be between {{min}} and {{max}}"
+  },
+  "warn": {
+    "timeout": "Timeout"
+  },
+  "success": {
+    "save": "Successfully saved"
+  },
+  "info": {
+    "changelog": "Changelog"
   }
 }
 ```
@@ -114,12 +124,22 @@ Now, create the translation files with the required texts, for example:
   },
   "text": {
     "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
-	  "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso."
+    "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
+    "welcome": "Seja bem-vindo, {{}}!" 
   },
   "error": {
     "required": "Este campo é obrigatório",
     "length": "O tamanho para este campo deve estar entre {} e {}",
     "range": "O valor para este campo deve estar entre {{min}} e {{max}}"
+  },
+  "warn": {
+    "timeout": "Tempo expirado"
+  },
+  "success": {
+    "save": "Salvo com sucesso"
+  },
+  "info": {
+    "changelog": "Log de alterações"
   }
 }
 ```
@@ -240,8 +260,41 @@ var i18n = require('i18n-js')(
 var i18n = require('i18n-js')(
   urlTemplate: function(part, lang) {
     var directoryTranslationFiles = './';
-	  return directory + '/{lang}/{part}.json';
+    return directory + '/{lang}/{part}.json';
   } 
+);
+```
+
+####`availables` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)>_
+
+List of supported languages for translation. **Default value:** *[]*
+
+####`fallbacks` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)>_
+
+Languages to be used if a translation is not found. **Default value:** *[]*
+
+####`preferred` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+
+Sets the language preferred by application (immutable), in the absence of a locale the value of this option is used. **Default value:** *'en-US'*
+
+####`locale` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+
+Current language, typically set automatically from the user's preferences logged in the application or from HTTP requests. **Default value:** *undefined*
+
+####`objectDelimiter` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+
+Delimiter used for translations namespaced. **Default value:** *'.'*
+
+####`load` _<[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
+
+Loader of the translation files, returning an object with the syntax { locale: { translationId: 'translation'} } **Default value:** *empty function*
+
+```javascript
+// Syntax
+var i18n = require('i18n-js')(
+  load: function(locale, preferred, fallbacks, urlTemplate) {
+    // Write your code according to the framework used by you
+  }
 );
 ```
 
