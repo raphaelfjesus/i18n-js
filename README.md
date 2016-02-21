@@ -273,15 +273,15 @@ List of supported languages for translation. **Default value:** *[]*
 
 Languages to be used if a translation is not found. **Default value:** *[]*
 
-####`preferred` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+####`preferred` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
 
 Sets the language preferred by application (immutable), in the absence of a locale the value of this option is used. **Default value:** *'en-US'*
 
-####`locale` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+####`locale` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
 
 Current language, typically set automatically from the user's preferences logged in the application or from HTTP requests. **Default value:** *undefined*
 
-####`objectDelimiter` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+####`objectDelimiter` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
 
 Delimiter used for translations namespaced. **Default value:** *'.'*
 
