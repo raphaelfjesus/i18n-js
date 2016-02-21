@@ -64,16 +64,19 @@ var i18n = i18n({
   availables: [],
   
   // Languages to be used if a translation is not found. Default value: []
-  fallbacks: [ 'en-GB', { pt-BR: pt-PT } ],
+  fallbacks: {
+    'ca': 'es-ES', // use Spanish translations if Catalan translations are missing
+    'de': [ 'en-US', 'en-GB' ] // use English translations if Deutsch translations are missing
+  },
   
   // Sets the language preferred by application (immutable), in the absence of a locale the value of this option is used. Default value: 'en-US'
   preferred: 'en-US',
   
-  // Current language, typically set automatically from the user's preferences logged in the application or from HTTP requests. Default value: undefined
-  locale: 'en-US', 
-  
   // Delimiter used for translations namespaced. Default value: '.'
   objectDelimiter: '.', 
+  
+  // An function(translatedText, interpolationParameters) for custom interpolation. Default value: undefined
+  interpolator: undefined, 
   
   // Loader of the translation files, returning an object with the syntax { locale: { translationId: 'translation'} }
   load: function(locale, preferred, fallbacks, urlTemplate) {
@@ -95,7 +98,9 @@ Now, create the translation files with the required texts, for example:
   "text": {
     "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
     "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
-    "welcome": "Welcome, {{}}!" 
+    "welcome": "Welcome, {}!",
+    "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",
+    "presentation": "My name is {} and I have {} children."
   },
   "error": {
     "required": "This field is required",
@@ -125,7 +130,9 @@ Now, create the translation files with the required texts, for example:
   "text": {
     "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
     "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
-    "welcome": "Seja bem-vindo, {{}}!" 
+    "welcome": "Seja bem-vindo, {}!",
+    "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
+    "presentation": "Meu nome é {} e tenho {} filhos."
   },
   "error": {
     "required": "Este campo é obrigatório",
@@ -144,6 +151,38 @@ Now, create the translation files with the required texts, for example:
 }
 ```
 
+**./locales/es-es.json**
+```json
+{
+  "entry": {
+    "customer": "Cliente",
+    "firstname": "Nombre",
+    "lastname": "Apellido" 
+  },
+  "text": {
+    "selectedRow": "{COUNT, plural, zero{No hay filas seleccionadas} one{1 fila seleccionada} other{# líneas seleccionadas}}",
+    "like": "{GENDER, select, male{Que le gusta} female{Que le gusta} other{Que les gusta}} lo.",
+    "welcome": "Bienvenido, {{}}!",
+    "alphabet": "Las 4 primeras letras del alfabeto Inglés son: %s, %s, %s y %s",
+    "presentation": "Mi nombre es {} y tengo {} hijos."
+  },
+  "error": {
+    "required": "Este campo es obligatorio",
+    "length": "El tamaño de este campo debe estar entre {} y {}",
+    "range": "El valor de este campo debe estar entre {{min}} y {{max}}"
+  },
+  "warn": {
+    "timeout": "Tiempo transcurrido"
+  },
+  "success": {
+    "save": "Se ha guardado correctamente"
+  },
+  "info": {
+    "changelog": "Cambio de registro"
+  }
+}
+```
+
 Ready! With the default options, let's illustrate the use of the features:
 
 ### Translation
@@ -151,17 +190,23 @@ Ready! With the default options, let's illustrate the use of the features:
 Now, notice how simple the translation of a text:
 
 ```javascript
-// Common use (informal)
+// Common use
 i18n.get('entry.customer'); // Customer
 i18n.get('entry.customer', { $lang: 'pt-br' }); // Cliente
 
 // Formal use
 i18n.get({ $id: 'error.required' }); // This field is required
 i18n.get({ $id: 'error.required', $lang: 'pt-br' }); // Este campo é obrigatório
+i18n.get({ $id: 'error.required' }, { $lang: 'pt-br' }); // Este campo é obrigatório
 
 // Multiple simultaneous translations
-i18n.get([ 'entry.firstname', 'entry.lastname' ]); // [ 'Firstname', 'Lastname' ]
-i18n.get([ 'entry.firstname', 'entry.lastname' ], { $lang: 'pt-br' }); // [ 'Nome', 'Sobrenome' ]
+i18n.get([ 'entry.firstname', 'entry.lastname' ]); // { 'entry.firstname': 'Firstname', 'entry.lastname': 'Lastname' }
+i18n.get([ 'entry.firstname', 'entry.lastname' ], { $lang: 'pt-br' }); // { 'entry.firstname': 'Nome', 'entry.lastname': 'Sobrenome' }
+i18n.get([ { $id: 'entry.firstname', $lang: 'pt-br' }, { $id: 'entry.lastname', $lang: 'es-es' }, { $id: 'entry.customer' } ]); // { 'entry.firstname': 'Nome', 'entry.lastname': 'Apellido', 'entry.customer': 'Customer' }
+
+// Translation from the fallback language
+i18n.get('entry.firstname', { $lang: 'ca' }); // Catalan translation => Spanish translation = Nombre
+i18n.get('entry.firstname', { $lang: 'de' }); // Deutsch translation => English translation = Firstname
 ```
 
 ### Interpolation
@@ -169,13 +214,38 @@ i18n.get([ 'entry.firstname', 'entry.lastname' ], { $lang: 'pt-br' }); // [ 'Nom
 Well, now that we know how the translation works, see how interpolate variables (variables replacement) with the translated text:
   
 ```javascript
-// Common use (informal)
+// Common use
 i18n.get('error.length', 1, 15); // Length must be between 1 and 15
 i18n.get('error.length', 1, 15, { $lang: 'pt-br' }); // O tamanho para este campo deve estar entre 1 e 15
 
-// Formal use
+i18n.get('text.welcome', 'Raphael'); // Welcome, Raphael!
+i18n.get('text.welcome', 'Raphael', { $lang: 'pt-br' }); // Seja bem-vindo, Raphael!
+
+i18n.get('text.presentation', 'Raphael', 2); // My name is Raphael and I have 2 children.
+i18n.get('text.presentation', 'Raphael', 2, { $lang: 'pt-br' }); // Meu nome é Raphael e tenho 2 filhos.
+
+// Named parameters
 i18n.get('error.range', { min: 1, max: 999 }); // Must be between 1 and 999
 i18n.get('error.range', { min: 1, max: 999 }, { $lang: 'pt-br' }); // O valor para este campo deve estar entre 1 e 999
+```
+
+or, custom interpolator:
+
+```javascript
+var vsprintf = require('sprintf-js').vsprintf;
+var i18n = require('i18n-js')({
+  // Using sprintf to format
+  interpolator: function(translatedText, interpolationParameters) {
+    if((/%/).test(translatedText)) {
+      translatedText = vsprintf(translatedText, interpolationParameters);
+    }
+    
+    return translatedText;
+  }
+});
+
+i18n.get('text.alphabet', 'a', 'b', 'c', 'd'); // The first 4 letters of the english alphabet are: a, b, c and d
+i18n.get('text.alphabet', 'a', 'b', 'c', 'd', { $lang: 'pt-br' }); // As primeiras 4 letras do alfabeto Inglês são: a, b, c e d
 ```
 
 ### Pluralization
@@ -284,6 +354,10 @@ Current language, typically set automatically from the user's preferences logged
 ####`objectDelimiter` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
 
 Delimiter used for translations namespaced. **Default value:** *'.'*
+
+####`interpolator` _<[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
+
+An function(translatedText, interpolationParameters) for custom interpolation. **Default value:** *undefined*
 
 ####`load` _<[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
 
