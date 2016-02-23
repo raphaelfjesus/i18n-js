@@ -122,7 +122,6 @@ describe('I18n#interpolate()', function() {
         });
       });
     });
-    
   });
   
 });

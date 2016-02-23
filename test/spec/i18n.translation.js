@@ -19,7 +19,9 @@ describe('I18n#translate()', function() {
         "text": {
           "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
           "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
-          "welcome": "Welcome, {{}}!" 
+          "welcome": "Welcome, {}!",
+          "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",
+          "presentation": "My name is {} and I have {} children."
         },
         "error": {
           "required": "This field is required",
@@ -45,7 +47,9 @@ describe('I18n#translate()', function() {
         "text": {
           "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
           "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
-          "welcome": "Seja bem-vindo, {{}}!" 
+          "welcome": "Seja bem-vindo, {}!",
+          "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
+          "presentation": "Meu nome é {} e tenho {} filhos."
         },
         "error": {
           "required": "Este campo é obrigatório",
