@@ -3,6 +3,7 @@
 /**
  * Libraries.
  */
+var path = require('path');
 var chai = require('chai');
 var expect = chai.expect;
 var I18n = require('../../index').I18n;
@@ -11,12 +12,16 @@ describe('I18n#translate()', function() {
   var i18n = new I18n({
     translations: {
       "en-us": require('../locales/en-US.json'),
-      "pt-br": require('../locales/pt-BR.json'),
-      "es-es": require('../locales/es-ES.json') 
+      "pt-br": require('../locales/pt-BR.json')/*,
+      "es-es": require('../locales/es-ES.json') */
     },
     fallbacks: {
       'ca': 'es-ES', // use Spanish translations if Catalan translations are missing
-      'en': [ 'en-US', 'en-GB' ]
+      'en': [ 'en-US', 'pt-BR' ]
+    },
+    urlTemplate: path.resolve('./test/locales/{lang}.json'),
+    load: function(url) {
+      return require(url);
     }
   });
 
@@ -108,6 +113,13 @@ describe('I18n#translate()', function() {
   
         done();
       });
+      
+      it('should throw exception if is array (fallback)', function(done) {
+        var fn = function() { i18n.translate('not.found', { $lang: 'en' }); };
+        expect(fn).to.throw(/not found/);
+        
+        done();
+      });
     });
     
     describe('otherwise', function() {
@@ -141,6 +153,19 @@ describe('I18n#translate()', function() {
         it('if the translation id is string', function(done) {
           var translatedText = i18n.translate('entry.firstname', { $lang: 'pt-BR' });
           expect(translatedText).to.equal('Nome');
+          
+          var i18n2 = new I18n({
+            locales: [ 'pt-BR', 'es-ES' ],
+            translations: {
+              "en-us": require('../locales/en-US.json'),
+              "pt-br": require('../locales/pt-BR.json'),
+              "es-es": require('../locales/es-ES.json') 
+            }
+          });
+  
+          i18n2.setLocale('es-ES');
+          translatedText = i18n2.translate('entry.firstname');
+          expect(translatedText).to.equal('Nombre');
     
           done();
         });
