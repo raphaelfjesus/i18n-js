@@ -10,88 +10,9 @@ var I18n = require('../../index').I18n;
 describe('I18n#translate()', function() {
   var i18n = new I18n({
     translations: {
-      "en-us": {
-        "entry": {
-          "customer": "Customer",
-          "firstname": "Firstname",
-          "lastname": "Lastname" 
-        },
-        "text": {
-          "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
-          "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
-          "welcome": "Welcome, {}!",
-          "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",
-          "presentation": "My name is {} and I have {} children."
-        },
-        "error": {
-          "required": "This field is required",
-          "length": "Length must be between {} and {}",
-          "range": "Must be between {{min}} and {{max}}"
-        },
-        "warn": {
-          "timeout": "Timeout"
-        },
-        "success": {
-          "save": "Successfully saved"
-        },
-        "info": {
-          "changelog": "Changelog"
-        }
-      },
-      "pt-br": {
-        "entry": {
-          "customer": "Cliente",
-          "firstname": "Nome",
-          "lastname": "Sobrenome" 
-        },
-        "text": {
-          "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
-          "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
-          "welcome": "Seja bem-vindo, {}!",
-          "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
-          "presentation": "Meu nome é {} e tenho {} filhos."
-        },
-        "error": {
-          "required": "Este campo é obrigatório",
-          "length": "O tamanho para este campo deve estar entre {} e {}",
-          "range": "O valor para este campo deve estar entre {{min}} e {{max}}"
-        },
-        "warn": {
-          "timeout": "Tempo expirado"
-        },
-        "success": {
-          "save": "Salvo com sucesso"
-        },
-        "info": {
-          "changelog": "Log de alterações"
-        }
-      },
-      "es-es": {
-        "entry": {
-          "customer": "Cliente",
-          "firstname": "Nombre",
-          "lastname": "Apellido" 
-        },
-        "text": {
-          "selectedRow": "{COUNT, plural, zero{No hay filas seleccionadas} one{1 fila seleccionada} other{# líneas seleccionadas}}",
-          "like": "{GENDER, select, male{Que le gusta} female{Que le gusta} other{Que les gusta}} lo.",
-          "welcome": "Bienvenido, {{}}!" 
-        },
-        "error": {
-          "required": "Este campo es obligatorio",
-          "length": "El tamaño de este campo debe estar entre {} y {}",
-          "range": "El valor de este campo debe estar entre {{min}} y {{max}}"
-        },
-        "warn": {
-          "timeout": "Tiempo transcurrido"
-        },
-        "success": {
-          "save": "Se ha guardado correctamente"
-        },
-        "info": {
-          "changelog": "Cambio de registro"
-        }
-      }
+      "en-us": require('../locales/en-US.json'),
+      "pt-br": require('../locales/pt-BR.json'),
+      "es-es": require('../locales/es-ES.json') 
     },
     fallbacks: {
       'ca': 'es-ES', // use Spanish translations if Catalan translations are missing

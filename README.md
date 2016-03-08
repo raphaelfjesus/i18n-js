@@ -307,7 +307,7 @@ i18n.info('changelog'); // Equivalent to i18n.get('info.changelog')
 i18n.alias('text'); // Create an alias 'text' for the namespace 'text.'
 i18n.text('welcome',  'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
 
-i18n.alias('t', 'text'); // Create an alias 't' for the namespace 'text.'
+i18n.alias({ t: 'text'}); // Create an alias 't' for the namespace 'text.'
 i18n.t('welcome', 'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
 ```
 
@@ -329,7 +329,7 @@ var i18n = require('i18n-js')(
 
 var i18n = require('i18n-js')(
   urlTemplate: function(part, lang) {
-    var directoryTranslationFiles = './';
+    var directory = './';
     return directory + '/{lang}/{part}.json';
   } 
 );

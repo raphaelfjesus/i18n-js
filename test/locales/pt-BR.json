@@ -1,0 +1,28 @@
+{
+  "entry": {
+    "customer": "Cliente",
+    "firstname": "Nome",
+    "lastname": "Sobrenome" 
+  },
+  "text": {
+    "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
+    "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
+    "welcome": "Seja bem-vindo, {}!",
+    "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
+    "presentation": "Meu nome é {} e tenho {} filhos."
+  },
+  "error": {
+    "required": "Este campo é obrigatório",
+    "length": "O tamanho para este campo deve estar entre {} e {}",
+    "range": "O valor para este campo deve estar entre {{min}} e {{max}}"
+  },
+  "warn": {
+    "timeout": "Tempo expirado"
+  },
+  "success": {
+    "save": "Salvo com sucesso"
+  },
+  "info": {
+    "changelog": "Log de alterações"
+  }
+}

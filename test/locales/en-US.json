@@ -1,0 +1,28 @@
+{
+  "entry": {
+    "customer": "Customer",
+    "firstname": "Firstname",
+    "lastname": "Lastname" 
+  },
+  "text": {
+    "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
+    "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
+    "welcome": "Welcome, {}!",
+    "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",
+    "presentation": "My name is {} and I have {} children."
+  },
+  "error": {
+    "required": "This field is required",
+    "length": "Length must be between {} and {}",
+    "range": "Must be between {{min}} and {{max}}"
+  },
+  "warn": {
+    "timeout": "Timeout"
+  },
+  "success": {
+    "save": "Successfully saved"
+  },
+  "info": {
+    "changelog": "Changelog"
+  }
+}
