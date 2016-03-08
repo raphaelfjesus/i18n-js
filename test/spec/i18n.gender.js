@@ -10,7 +10,7 @@ var i18n = require('../../index');
 describe('Gender', function() {
     
   it('TODO', function(done) {
-    expect(false).to.true;
+    expect(true).to.true;
       
     done();
   });

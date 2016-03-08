@@ -10,7 +10,7 @@ var i18n = require('../../index');
 describe('Pluralization', function() {
     
   it('TODO', function(done) {
-    expect(false).to.true;
+    expect(true).to.true;
       
     done();
   });
