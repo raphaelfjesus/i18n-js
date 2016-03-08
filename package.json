@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.js",
-    "coverage": "istanbul cover _mocha"
+    "coverage": "istanbul cover _mocha -- -R spec ./test/**/*.js"
   },
   "repository": {
     "type": "git",
