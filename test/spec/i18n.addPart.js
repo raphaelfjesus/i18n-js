@@ -18,10 +18,14 @@ describe('I18n#addPart()', function() {
   });
   
   i18n.addPart('dashboard');
+  i18n.addPart('user/profile');
   
   it('should load part added successfully', function(done) {
     var translatedText = i18n.get('heading', { $lang: 'pt-BR' });
     expect(translatedText).to.equal('Painel de Instrumentos');
+    
+    translatedText = i18n.get('entry.password', { $lang: 'pt-BR' });
+    expect(translatedText).to.equal('Senha');
 
     done();
   });
