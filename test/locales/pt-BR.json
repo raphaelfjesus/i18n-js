@@ -5,7 +5,12 @@
     "lastname": "Sobrenome" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
+    "selectedRow": {
+      "zero": "Nenhuma linha selecionada",
+      "one": "1 linha selecionada",
+      "other": "{{count}} linhas selecionadas"
+    },
+    "searchResult": "{$count, plural, =0{Nenhum registro encontrado} one{1 registro encontrado} other{# registros encontrados} }",
     "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
     "welcome": "Seja bem-vindo, {}!",
     "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",

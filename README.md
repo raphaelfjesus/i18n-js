@@ -14,6 +14,10 @@ You need a simple and objective javascript library for manipulating translations
  - Gender
  - Aliases
 
+## Requirements
+
+ - [ECMAScript 6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
+
 ## Installation
 
 ### Server-side
@@ -236,11 +240,7 @@ var vsprintf = require('sprintf-js').vsprintf;
 var i18n = require('i18n-js')({
   // Using sprintf to format
   interpolator: function(translatedText, interpolationParameters) {
-    if((/%/).test(translatedText)) {
-      translatedText = vsprintf(translatedText, interpolationParameters);
-    }
-    
-    return translatedText;
+    return (/%/).test(translatedText) ? vsprintf(translatedText, interpolationParameters) : translatedText;
   }
 });
 
@@ -253,21 +253,46 @@ i18n.get('text.alphabet', 'a', 'b', 'c', 'd', { $lang: 'pt-br' }); // As primeir
 The pluralization feature implemented in this library follows the specification defined in [ICU User Guide](http://userguide.icu-project.org/formatparse/messages), where its use is done as follows:
 
 ```javascript
-i18n.get('text.selectedRow', { COUNT: 0 }); // No selected row
-i18n.get('text.selectedRow', { COUNT: 0 }, { $lang: 'pt-br' }); // Nenhuma linha selecionada
-i18n.get('text.selectedRow', { COUNT: 1 }); // 1 selected row
-i18n.get('text.selectedRow', { COUNT: 1 }, { $lang: 'pt-br' }); // 1 linha selecionada
-i18n.get('text.selectedRow', { COUNT: 10 }); // 10 selected rows
-i18n.get('text.selectedRow', { COUNT: 10 }, { $lang: 'pt-br' }); // 10 linhas selecionadas
+i18n.get('text.selectedRow', { $count: 0 }); // No selected row
+i18n.get('text.selectedRow', { $count: 1 }); // 1 selected row
+i18n.get('text.selectedRow', { $count: 10 }); // 10 selected rows
+
+i18n.get('text.selectedRow', { $count: 0, $lang: 'pt-br' }); // Nenhuma linha selecionada
+i18n.get('text.selectedRow', { $count: 1, $lang: 'pt-br' }); // 1 linha selecionada
+i18n.get('text.selectedRow', { $count: 10, $lang: 'pt-br' }); // 10 linhas selecionadas
 
 // equivalent to
 
 i18n.plural('text.selectedRow', 0); // No selected row
-i18n.plural('text.selectedRow', 0, { $lang: 'pt-br' }); // Nenhuma linha selecionada
 i18n.plural('text.selectedRow', 1); // 1 selected row
-i18n.plural('text.selectedRow', 1, { $lang: 'pt-br' }); // 1 linha selecionada
 i18n.plural('text.selectedRow', 10); // 10 selected rows
+
+i18n.plural('text.selectedRow', 0, { $lang: 'pt-br' }); // Nenhuma linha selecionada
+i18n.plural('text.selectedRow', 1, { $lang: 'pt-br' }); // 1 linha selecionada
 i18n.plural('text.selectedRow', 10, { $lang: 'pt-br' }); // 10 linhas selecionadas
+```
+
+or, custom pluralizer:
+
+```javascript
+var MessageFormat = require('messageformat');
+var i18n = require('i18n-js')({
+  // Using message format for pluralization (override default pluralization)
+  pluralizer: function(language, translatedText, interplateParams) {
+    var format = new MessageFormat(language).compile(translatedText);
+    return format(interplateParams);
+  }
+});
+
+i18n.get('text.searchResult', { $count: 0 }); // No records found
+i18n.get('text.searchResult', { $count: 1 }); // 1 record found
+i18n.get('text.searchResult', { $count: 10 }); // 10 records found
+
+// Equivalent to
+
+i18n.plural('text.searchResult', { $count: 0 }); // No records found
+i18n.plural('text.searchResult', { $count: 1 }); // 1 record found
+i18n.plural('text.searchResult', { $count: 10 }); // 10 records found
 ```
 
 ### Gender
@@ -275,20 +300,22 @@ i18n.plural('text.selectedRow', 10, { $lang: 'pt-br' }); // 10 linhas selecionad
 As well as the pluralization feature, this feature also follows the specification defined in [ICU User Guide](http://userguide.icu-project.org/formatparse/messages), allowing you to easily apply gender rules:
 
 ```javascript
-i18n.get('text.like', { GENDER: 'male' }); // He like this.
-i18n.get('text.like', { GENDER: 'male' }, { $lang: 'pt-br' }); // Ele gostou disso.
-i18n.get('text.like', { GENDER: 'female' }); // She like this.
-i18n.get('text.like', { GENDER: 'female' }, { $lang: 'pt-br' }); // Ela gostou disso.
-i18n.get('text.like', { GENDER: 'other' }); // They like this.
-i18n.get('text.like', { GENDER: 'other' }, { $lang: 'pt-br' }); // Eles gostam disso.
+i18n.get('text.like', { $gender: 'male' }); // He like this.
+i18n.get('text.like', { $gender: 'female' }); // She like this.
+i18n.get('text.like', { $gender: 'other' }); // They like this.
+
+i18n.get('text.like', { $gender: 'male', $lang: 'pt-br' }); // Ele gostou disso.
+i18n.get('text.like', { $gender: 'female', $lang: 'pt-br' }); // Ela gostou disso.
+i18n.get('text.like', { $gender: 'other', $lang: 'pt-br' }); // Eles gostam disso.
 
 // equivalent to
 
 i18n.gender('text.like', 'male'); // He like this.
-i18n.gender('text.like', 'male', { $lang: 'pt-br' }); // Ele gosta disso.
 i18n.gender('text.like', 'female'); // She like this.
-i18n.gender('text.like', 'female', { $lang: 'pt-br' }); // Ela gosta disso.
 i18n.gender('text.like', 'other'); // They like this.
+
+i18n.gender('text.like', 'male', { $lang: 'pt-br' }); // Ele gosta disso.
+i18n.gender('text.like', 'female', { $lang: 'pt-br' }); // Ela gosta disso.
 i18n.gender('text.like', 'other', { $lang: 'pt-br' }); // Eles gostam disso.
 ```
 
@@ -305,7 +332,7 @@ i18n.info('changelog'); // Equivalent to i18n.get('info.changelog')
 
 // Custom aliases
 i18n.alias('text'); // Create an alias 'text' for the namespace 'text.'
-i18n.text('welcome',  'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
+i18n.text('welcome', 'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
 
 i18n.alias({ t: 'text'}); // Create an alias 't' for the namespace 'text.'
 i18n.t('welcome', 'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
@@ -391,4 +418,24 @@ $ npm test
 
 ## License
 
-[MIT](LICENSE)
+The MIT License (MIT)
+
+Copyright (c) 2016 Raphael F. Jesus <raphaelfjesus@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

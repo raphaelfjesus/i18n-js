@@ -5,7 +5,12 @@
     "lastname": "Lastname" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
+    "selectedRow": {
+      "zero": "No selected row",
+      "one": "1 selected row",
+      "other": "{{count}} selected rows"
+    },
+    "searchResult": "{$count, plural, =0{No records} one{1 record} other{# records} } found",
     "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
     "welcome": "Welcome, {}!",
     "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",

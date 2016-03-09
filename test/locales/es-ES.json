@@ -5,7 +5,12 @@
     "lastname": "Apellido" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{No hay filas seleccionadas} one{1 fila seleccionada} other{# líneas seleccionadas}}",
+    "selectedRow": {
+      "zero": "No hay filas seleccionadas",
+      "one": "1 fila seleccionada",
+      "other": "{{count}} líneas seleccionadas"
+    },
+    "searchResult": "{$count, plural, =0{No hay registros} one{1 registro encontrado} other{# registros encontrados} }",
     "like": "{GENDER, select, male{Que le gusta} female{Que le gusta} other{Que les gusta}} lo.",
     "welcome": "Bienvenido, {{}}!" 
   },

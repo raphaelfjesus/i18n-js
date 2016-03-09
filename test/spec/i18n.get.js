@@ -36,5 +36,13 @@ describe('I18n#get()', function() {
 
     done();
   });
+  
+  it('if the options is object => { $count: [number] }', function(done) {
+    expect(i18n.get('text.selectedRow', { $count: 0 })).to.equal('No selected row');
+    expect(i18n.get('text.selectedRow', { $count: 1 })).to.equal('1 selected row');
+    expect(i18n.get('text.selectedRow', { $count: 10 })).to.equal('{{count}} selected rows');
+
+    done();
+  });
 
 });
