@@ -10,7 +10,7 @@ var I18n = require('../../index').I18n;
 
 describe('I18n#addPart()', function() {
   var i18n = new I18n({
-    urlTemplate: path.resolve('./test/locales/{lang}/{part}.json'),
+    urlTemplate: path.resolve('./test/locales/{locale}/{part}.json'),
     load: function(url) {
       console.log(url);
       return require(url);

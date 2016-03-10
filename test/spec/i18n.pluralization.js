@@ -11,7 +11,7 @@ var I18n = require('../../index').I18n;
 
 describe('I18n#pluralize()', function() {
   var i18n = new I18n({
-    urlTemplate: path.resolve('./test/locales/{lang}.json'),
+    urlTemplate: path.resolve('./test/locales/{locale}.json'),
     load: function(url) {
       return require(url);
     }
@@ -123,7 +123,7 @@ describe('I18n#pluralize()', function() {
       
       describe('custom pluralizator (e.g. message-format)', function() {
         let i18n = new I18n({
-            urlTemplate: path.resolve('./test/locales/{lang}.json'),
+            urlTemplate: path.resolve('./test/locales/{locale}.json'),
             load: function(url) {
               return require(url);
             },

@@ -1,4 +1,4 @@
-# i18n-js
+# i18n-js `(work in progress)`
 
 [![Build Status](https://travis-ci.org/raphaelfjesus/i18n-js.svg?branch=master)](http://travis-ci.org/raphaelfjesus/i18n-js)
 [![Code Climate](https://codeclimate.com/github/raphaelfjesus/i18n-js/badges/gpa.svg)](https://codeclimate.com/github/raphaelfjesus/i18n-js)
@@ -63,31 +63,55 @@ Then set the options that suit you best:
 
 ```javascript
 var i18n = i18n({
-  // A string containing a standard url (with {part} and {lang}) or function (part, lang) that returns a string. Default value: '{lang}/{part}.json'
-  urlTemplate: '{lang}/{part}.json',
+  // A string containing a standard url (with {locale} and/or {part}) or function (locale, part) that returns a string.
+  urlTemplate: './locales/{locale}.json',
   
-  // List of supported languages for translation. Default value: []
-  availables: [],
+  // Array of supported locales
+  locales: [],
   
-  // Languages to be used if a translation is not found. Default value: []
-  fallbacks: {
-    'ca': 'es-ES', // use Spanish translations if Catalan translations are missing
-    'de': [ 'en-US', 'en-GB' ] // use English translations if Deutsch translations are missing
-  },
-  
-  // Sets the language preferred by application (immutable), in the absence of a locale the value of this option is used. Default value: 'en-US'
+  // Sets the locale preferred by application (immutable), in the absence of a locale the value of this option is used.
   preferred: 'en-US',
   
-  // Delimiter used for translations namespaced. Default value: '.'
-  objectDelimiter: '.', 
+  // Locales to be used if a translation is not found.
+  fallbacks: {},
   
-  // An function(translatedText, interpolationParameters) for custom interpolation. Default value: undefined
-  interpolator: undefined, 
+  // Delimiter used for translations namespaced.
+  objectDelimiter: '.',
   
-  // Loader of the translation files, returning an object with the syntax { locale: { translationId: 'translation'} }
-  load: function(locale, preferred, fallbacks, urlTemplate) {
-    // Write your code according to the framework used by you
-  }
+  // Stores translations already loaded.
+  translations: {},
+  
+  // Current locale, typically set automatically from the user's preferences logged in the application or from HTTP requests. (internal use)
+  locale: undefined,
+  
+  // Stores the parts of loaded translations when the option urlTemplate is set to use the pattern {part}. (internal use)
+  parts: new Map(), 
+  
+  // NNicknames to leave a better semantics in the code when translations keys are based on namespaces, e.g. i18n.error('required') or i18n.get('error.required').
+  aliases: { error: 'error', warn: 'warn', success: 'success', info: 'info' },
+  
+  // Translation missing handler.
+  missingHandler: function(translationId, languageKeys) {
+    throw new Error('Translation not found.');
+  },
+  
+  // Loader of the translation files, returning an object with the syntax: { locale: { translationId: 'translation'} }
+  load: function(url) {
+    throw new Error('Missing implementation.');
+  },
+  
+  // Pluralization rules to be used with the default pluralizer
+  pluralizationRules: {
+    en: function (count) {
+      return count === 0 ? 'zero' : (count === 1 ? 'one' : 'other');
+    }
+  },
+  
+  // An function(language, translatedText, interpolationParameters) for custom pluralizer, that returns an string.
+  pluralizer: undefined,
+  
+  // An function(translatedText, interpolationParameters) for custom interpolation, that returns an string.
+  interpolator: undefined 
 });
 ```
 

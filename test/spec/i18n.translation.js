@@ -19,7 +19,7 @@ describe('I18n#translate()', function() {
       'ca': 'es-ES', // use Spanish translations if Catalan translations are missing
       'en': [ 'en-US', 'pt-BR' ]
     },
-    urlTemplate: path.resolve('./test/locales/{lang}.json'),
+    urlTemplate: path.resolve('./test/locales/{locale}.json'),
     load: function(url) {
       return require(url);
     }

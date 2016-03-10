@@ -1,5 +1,5 @@
 {
-  "name": "i18n-js",
+  "name": "i18n-js-simple",
   "version": "0.1.0",
   "description": "I18n for browser and environments Node.JS (easy to use, fast and no dependencies)",
   "main": "index.js",
