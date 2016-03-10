@@ -11,7 +11,6 @@ You need a simple and objective javascript library for manipulating translations
  - Translation
  - Interpolation
  - Pluralization
- - Gender
  - Aliases
 
 ## Requirements
@@ -20,7 +19,7 @@ You need a simple and objective javascript library for manipulating translations
 
 ## Installation
 
-### Server-side
+**Server-side**
 
 In an environment with [Node.js](https://nodejs.org), install with [NPM](https://www.npmjs.com):
 
@@ -28,7 +27,7 @@ In an environment with [Node.js](https://nodejs.org), install with [NPM](https:/
 $ npm install i18n-js
 ```
 
-### Client-side
+**Client-side**
 
 On your page, install with [Bower](http://bower.io/):
 
@@ -43,17 +42,20 @@ Before you start using the functionality provided by the library, first import i
 Server-side
 
 ```javascript
-var i18n = require('i18n-js');
-
-// Write your code here
+// Minimum configuration
+var path = require('path');
+var i18n = require('i18n-js')({
+  urlTemplate: path.resolve('./locales/{locale}.json'), 
+  locales: [ 'en-US', 'pt-BR' ] 
+});
 ```
 
 Client-side
 
 ```html
-<script type="text/javascript" src="i18n-js.min.js"></script>
+<script src="bower_components/i18n-js/i18n-js.min.js"></script>
 <script type="text/javascript">
-  // Write your code here
+  // TODO
 </script> 
 ```
 
@@ -100,16 +102,26 @@ Now, create the translation files with the required texts, for example:
     "lastname": "Lastname" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{No selected row} one{1 selected row} other{# selected rows}}",
-    "like": "{GENDER, select, male{He} female{She} other{They}} like this.",
+    "selectedRow": {
+      "zero": "No selected row",
+      "one": "1 selected row",
+      "other": "{{count}} selected rows"
+    },
     "welcome": "Welcome, {}!",
     "alphabet": "The first 4 letters of the english alphabet are: %s, %s, %s and %s",
-    "presentation": "My name is {} and I have {} children."
+    "names": "%2$s, %3$s and %1$s",
+    "presentation": "My name is {} and I have {} children.",
+    "myName": "My name is {{firstname}}.",
+    "myFullname": "My full name is {{firstname}} {{lastname}}.",
+    "myDaughter": "My daughter's name is {{name}} and has only {{age}} years old.",
+    "myMarried": "My name is {} and I am married to {} lady."
   },
   "error": {
     "required": "This field is required",
     "length": "Length must be between {} and {}",
-    "range": "Must be between {{min}} and {{max}}"
+    "range": "Must be between {{min}} and {{max}}",
+    "maxLength": "Length must be no more than {}",
+    "maxPercentage": "Percentage must be no more than {{max}}"
   },
   "warn": {
     "timeout": "Timeout"
@@ -132,16 +144,26 @@ Now, create the translation files with the required texts, for example:
     "lastname": "Sobrenome" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{Nenhuma linha selecionada} one{1 linha selecionada} other{# linhas selecionadas}}",
-    "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
+    "selectedRow": {
+      "zero": "Nenhuma linha selecionada",
+      "one": "1 linha selecionada",
+      "other": "{{count}} linhas selecionadas"
+    },
     "welcome": "Seja bem-vindo, {}!",
     "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
-    "presentation": "Meu nome é {} e tenho {} filhos."
+    "names": "%2$s, %3$s e %1$s",
+    "presentation": "Meu nome é {} e tenho {} filhos.",
+    "myName": "Meu nome é {{firstname}}.",
+    "myFullname": "Meu nome completo é {{firstname}} {{lastname}}.",
+    "myDaughter": "O nome da minha filha é {{name}} e tem apenas {{age}} anos de idade.",
+    "myMarried": "Meu nome é {} e sou casado com a senhora {}."
   },
   "error": {
     "required": "Este campo é obrigatório",
     "length": "O tamanho para este campo deve estar entre {} e {}",
-    "range": "O valor para este campo deve estar entre {{min}} e {{max}}"
+    "range": "O valor para este campo deve estar entre {{min}} e {{max}}",
+    "maxLength": "O tamanho máximo para este campo é {}",
+    "maxPercentage": "A porcentagem máxima para este campo é {{max}}"
   },
   "warn": {
     "timeout": "Tempo expirado"
@@ -164,16 +186,26 @@ Now, create the translation files with the required texts, for example:
     "lastname": "Apellido" 
   },
   "text": {
-    "selectedRow": "{COUNT, plural, zero{No hay filas seleccionadas} one{1 fila seleccionada} other{# líneas seleccionadas}}",
-    "like": "{GENDER, select, male{Que le gusta} female{Que le gusta} other{Que les gusta}} lo.",
+    "selectedRow": {
+      "zero": "No hay filas seleccionadas",
+      "one": "1 fila seleccionada",
+      "other": "{{count}} líneas seleccionadas"
+    },
     "welcome": "Bienvenido, {{}}!",
-    "alphabet": "Las 4 primeras letras del alfabeto Inglés son: %s, %s, %s y %s",
-    "presentation": "Mi nombre es {} y tengo {} hijos."
+    "alphabet": "Las 4 primeras letras del alfabeto inglés son: %s, %s, %s y %s",
+    "names": "%2$s, %3$s y %1$s",
+    "presentation": "Mi nombre es {} y tengo {} hijos.",
+    "myName": "Mi nombre es {{firstname}}.",
+    "myFullname": "Mi nombre completo es {{firstname}} {{lastname}}.",
+    "myDaughter": "El nombre de mi hija es {{name}} y tiene sólo {{age}} años.",
+    "myMarried": "Mi nombre es {} y estoy casada con {} dama."
   },
   "error": {
     "required": "Este campo es obligatorio",
     "length": "El tamaño de este campo debe estar entre {} y {}",
-    "range": "El valor de este campo debe estar entre {{min}} y {{max}}"
+    "range": "El valor de este campo debe estar entre {{min}} y {{max}}",
+    "maxLength": "El tamaño máximo para este campo es {}",
+    "maxPercentage": "El porcentaje máximo para este campo es {{max}}"
   },
   "warn": {
     "timeout": "Tiempo transcurrido"
@@ -260,16 +292,6 @@ i18n.get('text.selectedRow', { $count: 10 }); // 10 selected rows
 i18n.get('text.selectedRow', { $count: 0, $lang: 'pt-br' }); // Nenhuma linha selecionada
 i18n.get('text.selectedRow', { $count: 1, $lang: 'pt-br' }); // 1 linha selecionada
 i18n.get('text.selectedRow', { $count: 10, $lang: 'pt-br' }); // 10 linhas selecionadas
-
-// equivalent to
-
-i18n.plural('text.selectedRow', 0); // No selected row
-i18n.plural('text.selectedRow', 1); // 1 selected row
-i18n.plural('text.selectedRow', 10); // 10 selected rows
-
-i18n.plural('text.selectedRow', 0, { $lang: 'pt-br' }); // Nenhuma linha selecionada
-i18n.plural('text.selectedRow', 1, { $lang: 'pt-br' }); // 1 linha selecionada
-i18n.plural('text.selectedRow', 10, { $lang: 'pt-br' }); // 10 linhas selecionadas
 ```
 
 or, custom pluralizer:
@@ -278,45 +300,15 @@ or, custom pluralizer:
 var MessageFormat = require('messageformat');
 var i18n = require('i18n-js')({
   // Using message format for pluralization (override default pluralization)
-  pluralizer: function(language, translatedText, interplateParams) {
+  pluralizer: function(language, translatedText, interpolationParameters) {
     var format = new MessageFormat(language).compile(translatedText);
-    return format(interplateParams);
+    return format(interpolationParameters);
   }
 });
 
 i18n.get('text.searchResult', { $count: 0 }); // No records found
 i18n.get('text.searchResult', { $count: 1 }); // 1 record found
 i18n.get('text.searchResult', { $count: 10 }); // 10 records found
-
-// Equivalent to
-
-i18n.plural('text.searchResult', { $count: 0 }); // No records found
-i18n.plural('text.searchResult', { $count: 1 }); // 1 record found
-i18n.plural('text.searchResult', { $count: 10 }); // 10 records found
-```
-
-### Gender
-
-As well as the pluralization feature, this feature also follows the specification defined in [ICU User Guide](http://userguide.icu-project.org/formatparse/messages), allowing you to easily apply gender rules:
-
-```javascript
-i18n.get('text.like', { $gender: 'male' }); // He like this.
-i18n.get('text.like', { $gender: 'female' }); // She like this.
-i18n.get('text.like', { $gender: 'other' }); // They like this.
-
-i18n.get('text.like', { $gender: 'male', $lang: 'pt-br' }); // Ele gostou disso.
-i18n.get('text.like', { $gender: 'female', $lang: 'pt-br' }); // Ela gostou disso.
-i18n.get('text.like', { $gender: 'other', $lang: 'pt-br' }); // Eles gostam disso.
-
-// equivalent to
-
-i18n.gender('text.like', 'male'); // He like this.
-i18n.gender('text.like', 'female'); // She like this.
-i18n.gender('text.like', 'other'); // They like this.
-
-i18n.gender('text.like', 'male', { $lang: 'pt-br' }); // Ele gosta disso.
-i18n.gender('text.like', 'female', { $lang: 'pt-br' }); // Ela gosta disso.
-i18n.gender('text.like', 'other', { $lang: 'pt-br' }); // Eles gostam disso.
 ```
 
 ### Aliases
@@ -338,65 +330,161 @@ i18n.alias({ t: 'text'}); // Create an alias 't' for the namespace 'text.'
 i18n.t('welcome', 'Raphael'); // Equivalent to i18n.get('text.welcome', 'Raphael')
 ```
 
-## API
+## API Reference
 
 For a better understanding of the syntax and options supported by this library, read this section and see all the possibilities offered in their use:
 
-####`urlTemplate` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | [function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
+- [`i18n.get(translationId, [options])`](#i18ngettranslationid-options)
+- [`i18n.setLocale(locale)`](#i18nsetlocalelocale)
+- [`i18n.alias(name)`](#i18naliasname)
 
-A string containing a standard url (with *{part}* and *{lang}*) or *function (part, lang)* that returns a string. **Default value:** *'{lang}/{part}.json'*
+#### `i18n.get(translationId, [options])`
+
+Gets the corresponding translation to translation id.
+
+##### Parameters
+
+| Param                    | Type     | Details
+| ------------------------ | -------- | ---------------------------------------------------------------------------------------
+| **translationId**        | `String` | A JavaScript string as the translation key.
+| **options** *(optional)* | `Object` | If you need to send parameters to translated text interpolation or define how the translation should be done using the properties `$lang`, `$count` or `$gender`.
+
+##### Returns
+
+- **string** - The translated text.
+
+##### Usage
 
 ```javascript
-// Syntax
-var i18n = require('i18n-js')(
-  urlTemplate: '{lang}/{part}.json' 
-);
+var vsprintf = require('sprintf-js').vsprintf;
+var i18n = require('i18n-node')({
+  // preferred: 'en-US', // Default value
+  fallbacks: {
+    'ca': 'es-ES',
+    'en': [ 'en-US', 'pt-BR' ]
+  },
+  // Not override the default interpolation
+  interpolator: function(translatedText, interpolationParameters) {
+    return (/%/).test(translatedText) ? vsprintf(translatedText, interpolationParameters) : translatedText;
+  }
+});
+  
+// Translation
+i18n.get('heading'); // Demonstration of the use of I18n Node.JS library
+i18n.get('heading', { $lang: 'pt-BR' }); // Demonstração do uso da biblioteca I18n Node.JS
 
-// or 
+i18n.get({ $id: 'entry.firstname' }); // Firstname
+i18n.get({ $id: 'entry.firstname' }, { $lang: 'pt-BR' }); // Nome
 
-var i18n = require('i18n-js')(
-  urlTemplate: function(part, lang) {
-    var directory = './';
-    return directory + '/{lang}/{part}.json';
-  } 
-);
+i18n.get([ 'entry.firstname', 'entry.lastname' ]); // { 'entry.firstname': Firstname, 'entry.lastname': Lastname }
+i18n.get([ 'entry.firstname', 'entry.lastname' ], { $lang: 'pt-BR' }); // { 'entry.firstname': Nome, 'entry.lastname': Sobrenome }
+
+// Translation fallback
+i18n.get('entry.firstname', { $lang: 'ca' }); // Nombre
+i18n.get('entry.firstname', { $lang: 'en' }); // Firstname
+
+// Translation with default interpolation
+i18n.get('error.maxLength', 255); // Length must be no more than 255
+i18n.get('error.maxLength', 255, { $lang: 'pt-BR' }); // O tamanho máximo para este campo é 255
+i18n.get('error.length', 1, 255); // Length must be between 1 and 255
+i18n.get('error.length', 1, 255, { $lang: 'pt-BR' }); // O tamanho para este campo deve estar entre 1 e 255
+
+i18n.get('error.maxPercentage', { max: 50 }); // Percentage must be no more than 50
+i18n.get('error.maxPercentage', { max: 50 }, { $lang: 'pt-BR' }); // A porcentagem máxima para este campo é 50
+i18n.get('error.range', { min: 1, max: 999 }); // Must be between 1 and 999
+i18n.get('error.range', { min: 1, max: 999 }, { $lang: 'pt-BR' }); // O valor para este campo deve estar entre 1 e 999
+
+i18n.get('text.welcome', 'Raphael'); // Welcome, Raphael!
+i18n.get('text.welcome', 'Raphael', { $lang: 'pt-BR' }); // Seja bem-vindo, Raphael!
+i18n.get('text.myMarried', 'Raphael', 'Elizabeth'); // My name is Raphael and I am married to Elizabeth lady.
+i18n.get('text.myMarried', 'Raphael', 'Elizabeth', { $lang: 'pt-BR' }); // Meu nome é Raphael e sou casado com a senhora Elizabeth.          
+
+i18n.get('text.myName', { firstname: 'Raphael' }); // My name is Raphael.
+i18n.get('text.myName', { firstname: 'Raphael' }, { $lang: 'pt-BR' }); // Meu nome é Raphael.
+i18n.get('text.myFullname', { firstname: 'Raphael', lastname: 'Freitas' }); // My full name is Raphael Freitas.
+i18n.get('text.myFullname', { firstname: 'Raphael', lastname: 'Freitas' }, { $lang: 'pt-BR' }); // Meu nome completo é Raphael Freitas.
+
+i18n.get('text.presentation', 'Raphael', 2); // My name is Raphael and I have 2 children.
+i18n.get('text.presentation', 'Raphael', 2, { $lang: 'pt-BR' }); // Meu nome é Raphael e tenho 2 filhos.
+i18n.get("text.myDaughter", { name: 'Isabelle', age: 3 }); // My daughter's name is Isabelle and has only 3 years old.
+i18n.get("text.myDaughter", { name: 'Isabelle', age: 3 }, { $lang: 'pt-BR' }); // O nome da minha filha é Isabelle e tem apenas 3 anos de idade.    
+
+// Translation with custom interpolation
+i18n.get('text.alphabet', 'a', 'b', 'c', 'd'); // The first 4 letters of the english alphabet are: a, b, c and d
+i18n.get('text.alphabet', 'a', 'b', 'c', 'd', { $lang: 'pt-BR' }); // As primeiras 4 letras do alfabeto Inglês são: a, b, c e d
+
+i18n.get('text.names', 'Angelina Jolie', 'Megan Fox', 'Beyoncé'); // Megan Fox, Beyoncé and Angelina Jolie
+i18n.get('text.names', 'Angelina Jolie', 'Megan Fox', 'Beyoncé', { $lang: 'pt-BR' }); // Megan Fox, Beyoncé e Angelina Jolie          
+
+// Translation with default pluralization (property $count is required)
+i18n.get('text.selectedRow', { $count: 0 }); // No selected row
+i18n.get('text.selectedRow', { $count: 1 }); // 1 selected row
+i18n.get('text.selectedRow', { $count: 10 }); // 10 selected rows
+
+i18n.get('text.selectedRow', { $count: 0, $lang: 'pt-BR' }); // Nenhuma linha selecionada
+i18n.get('text.selectedRow', { $count: 1, $lang: 'pt-BR' }); // 1 linha selecionada
+i18n.get('text.selectedRow', { $count: 10, $lang: 'pt-BR' }); // 10 linhas selecionadas
+
+// Translation with default aliases => e.g. i18n.error('required') equivalent to i18n.get('error.required')
+i18n.error('required'); // This field is required
+i18n.error('required', { $lang: 'pt-BR' }); // Este campo é obrigatório
+
+i18n.warn('timeout'); // Timeout
+i18n.warn('timeout', { $lang: 'pt-BR' }); // Tempo expirado
+
+i18n.success('save'); // Successfully saved
+i18n.success('save', { $lang: 'pt-BR' }); // Salvo com sucesso
+
+i18n.info('changelog'); // Changelog
+i18n.info('changelog', { $lang: 'pt-BR' }); // Log de alterações
 ```
 
-####`availables` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)>_
+<hr>
 
-List of supported languages for translation. **Default value:** *[]*
+#### `i18n.setLocale(locale)`
 
-####`fallbacks` _<[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)>_
+Sets the locale to be used in translation.
 
-Languages to be used if a translation is not found. **Default value:** *[]*
+##### Parameters
 
-####`preferred` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
+| Param             | Type              | Details
+| ----------------- | ----------------- | ---------------------------------------------------------------------------------------
+| **locale**        | `String`          | The locale to be used.
 
-Sets the language preferred by application (immutable), in the absence of a locale the value of this option is used. **Default value:** *'en-US'*
-
-####`locale` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
-
-Current language, typically set automatically from the user's preferences logged in the application or from HTTP requests. **Default value:** *undefined*
-
-####`objectDelimiter` _<[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>_
-
-Delimiter used for translations namespaced. **Default value:** *'.'*
-
-####`interpolator` _<[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
-
-An function(translatedText, interpolationParameters) for custom interpolation. **Default value:** *undefined*
-
-####`load` _<[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)>_
-
-Loader of the translation files, returning an object with the syntax { locale: { translationId: 'translation'} } **Default value:** *empty function*
+##### Usage
 
 ```javascript
-// Syntax
-var i18n = require('i18n-js')(
-  load: function(locale, preferred, fallbacks, urlTemplate) {
-    // Write your code according to the framework used by you
-  }
-);
+i18n.setLocale('es-ES');
+```
+
+<hr>
+
+#### `i18n.alias(name)`
+
+Sets an alias for a translation namespace.
+
+##### Parameters
+
+| Param             | Type              | Details
+| ----------------- | ----------------- | ---------------------------------------------------------------------------------------
+| **name**          | `String | Object` | The alias name to be used.
+
+##### Usage
+
+```javascript
+i18n.alias('text');
+i18n.text('welcome', 'Raphael'); // Equivalent to i18n.get('text.welcome')
+
+i18n.alias({ label: 'entry' });
+i18n.label('firstname'); // Equivalent to i18n.get('entry.firstname')
+```
+
+> Default aliases can not be overwritten.
+```javascript
+i18n.error('required'); // Equivalent to i18n.get('error.required')
+i18n.warn('timeout'); // Equivalent to i18n.get('warn.timeout')
+i18n.success('save'); // Equivalent to i18n.get('success.save')
+i18n.info('changelog'); // Equivalent to i18n.get('info.changelog')
 ```
 
 ## Contributing

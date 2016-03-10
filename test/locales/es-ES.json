@@ -1,4 +1,5 @@
 {
+  "heading": "La demostración de la utilización de la biblioteca I18n Node.JS",
   "entry": {
     "customer": "Cliente",
     "firstname": "Nombre",
@@ -12,7 +13,8 @@
     },
     "searchResult": "{$count, plural, =0{No hay registros} one{1 registro encontrado} other{# registros encontrados} }",
     "like": "{GENDER, select, male{Que le gusta} female{Que le gusta} other{Que les gusta}} lo.",
-    "welcome": "Bienvenido, {{}}!" 
+    "welcome": "Bienvenido, {{}}!",
+    "usage": "Que demuestra el uso de la localización de la forma {{from}} de la petición del usuario."
   },
   "error": {
     "required": "Este campo es obligatorio",

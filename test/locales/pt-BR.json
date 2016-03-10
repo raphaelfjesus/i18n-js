@@ -1,4 +1,5 @@
 {
+  "heading": "Demonstração do uso da biblioteca I18n Node.JS",
   "entry": {
     "customer": "Cliente",
     "firstname": "Nome",
@@ -14,12 +15,20 @@
     "like": "{GENDER, select, male{Ele gosta} female{Ela gosta} other{Eles gostam}} disso.",
     "welcome": "Seja bem-vindo, {}!",
     "alphabet": "As primeiras 4 letras do alfabeto Inglês são: %s, %s, %s e %s",
-    "presentation": "Meu nome é {} e tenho {} filhos."
+    "names": "%2$s, %3$s e %1$s",
+    "presentation": "Meu nome é {} e tenho {} filhos.",
+    "usage": "Demonstrando o uso do locale à partir do {{from}} da requisição do usuário.",
+    "myName": "Meu nome é {{firstname}}.",
+    "myFullname": "Meu nome completo é {{firstname}} {{lastname}}.",
+    "myDaughter": "O nome da minha filha é {{name}} e tem apenas {{age}} anos de idade.",
+    "myMarried": "Meu nome é {} e sou casado com a senhora {}."
   },
   "error": {
     "required": "Este campo é obrigatório",
     "length": "O tamanho para este campo deve estar entre {} e {}",
-    "range": "O valor para este campo deve estar entre {{min}} e {{max}}"
+    "range": "O valor para este campo deve estar entre {{min}} e {{max}}",
+    "maxLength": "O tamanho máximo para este campo é {}",
+    "maxPercentage": "A porcentagem máxima para este campo é {{max}}"
   },
   "warn": {
     "timeout": "Tempo expirado"

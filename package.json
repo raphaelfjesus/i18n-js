@@ -32,7 +32,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.1",
-    "install": "^0.5.6",
     "istanbul": "^0.4.2",
     "messageformat": "^0.3.1",
     "mocha": "^2.4.5",
